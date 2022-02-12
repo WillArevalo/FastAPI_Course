@@ -1,7 +1,6 @@
 from enum import unique
 from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql.expression import null
 
 from db.base_class import Base
 
