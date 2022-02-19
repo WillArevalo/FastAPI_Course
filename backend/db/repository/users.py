@@ -4,6 +4,7 @@ from schemas.users import UserCreate
 from db.models.users import User
 from core.hashing import Hasher
 
+
 def create_new_user(user: UserCreate, db: Session):
     user = User(
         username=user.username,

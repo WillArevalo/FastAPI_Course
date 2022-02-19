@@ -1,5 +1,6 @@
 import json
 
+
 def test_create_job(client):
     data = {
         'title':'test title'
@@ -11,6 +12,7 @@ def test_create_job(client):
         }
     response = client.post("/job/create-job",json.dumps(data))
     assert response.status_code == 200
+
 
 def test_retrieve_job_by_id(client):
     data = {

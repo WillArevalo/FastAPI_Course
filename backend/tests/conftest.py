@@ -19,6 +19,7 @@ from db.base import Base
 from db.session import SQLALCHEMY_DATABASE_URL, get_db
 from apis.base import api_router
 
+
 def start_application():
     app = FastAPI()
     app.include_router(api_router)
@@ -31,6 +32,7 @@ engine = create_engine(
 # Use connect_args param only with sqlite
 SessionTesting = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+
 @pytest.fixture(scope="function")
 def app() -> Generator[FastAPI, Any, None]:
     """
@@ -41,6 +43,7 @@ def app() -> Generator[FastAPI, Any, None]:
     yield _app
     Base.metadata.drop_all(engine)
 
+
 @pytest.fixture(scope="function")
 def db_session(app: FastAPI) -> Generator[SessionTesting, Any, None]:
     connection = engine.connect()
@@ -50,6 +53,7 @@ def db_session(app: FastAPI) -> Generator[SessionTesting, Any, None]:
     session.close()
     transaction.rollback()
     connection.close()
+
 
 @pytest.fixture(scope="function")
 def client(

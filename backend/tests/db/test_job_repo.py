@@ -4,6 +4,7 @@ from db.repository.jobs import create_new_job, retrieve_job
 from schemas.jobs import JobCreate
 from tests.utils.users import create_random_owner
 
+
 def test_retrieve_job_by_id(db_session: Session):
     title = 'test title 2'
     company = 'test comp'
