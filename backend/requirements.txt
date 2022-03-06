@@ -89,3 +89,6 @@ urllib3==1.26.4
 
 # Server
 uvicorn==0.13.4
+
+# Handling static files req of starlette
+aiofiles
