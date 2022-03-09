@@ -1,8 +1,9 @@
+from urllib import request, robotparser
 from fastapi import APIRouter, Depends
 from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from db.repository.jobs import list_jobs
+from db.repository.jobs import list_jobs, retrieve_job
 from sqlalchemy.orm import Session
 from db.session import get_db
 
@@ -19,3 +20,9 @@ def home(request: Request, db: Session = Depends(get_db)):
         context={'request':request, 'jobs':jobs})
 
 
+@router.get('/detail/{id}')
+def job_detail(id: int, request: Request, db: Session = Depends(get_db)):
+    job = retrieve_job(id=id, db=db)
+    return templates.TemplateResponse(
+        name="jobs/detail_job.html", 
+        context={'request':request, 'job':job})
