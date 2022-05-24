@@ -3,12 +3,14 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from jose import jwt, JWTError
+from fastapi import Response
 
 from core.security import create_access_token
 from db.repository.login import get_user
 from db.session import get_db
 from core.config import settings
 from core.hashing import Hasher
+from apis.utils import OAuth2PasswordBearerWithCookie
 
 router = APIRouter()
 
@@ -25,6 +27,7 @@ def authenticate_user(username: str, password: str, db: Session):
 
 @router.post("/token")
 def login_for_access_token(
+    response:  Response,
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
     ):
@@ -38,7 +41,12 @@ def login_for_access_token(
         ) 
     access_token = create_access_token(
         data={'sub':user.email},
-        expires_delta=access_token_expire)       
+        expires_delta=access_token_expire) 
+    response.set_cookie(
+        key="access_token", 
+        value=f'bearer {access_token}',
+        httponly=True
+        )      
     return {"access_token":access_token, "token_type":"bearer"}
 
 
